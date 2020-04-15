@@ -1,17 +1,19 @@
 class FoodTruck
-  attr_reader :name, :inventory, :check_stock
+  attr_reader :name, :inventory
 
   def initialize(name)
     @name = name
     @inventory = {}
-    @check_stock = 0
   end
 
   def check_stock(item)
-    @check_stock
+    if @inventory[item] == nil
+      return 0
+    else @inventory[item]
+    end
   end
 
   def stock(item, amount)
-    @inventory[item] = amount 
+    @inventory[item] = amount
   end
 end

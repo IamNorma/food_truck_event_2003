@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/item'
 require './lib/food_truck'
+require 'pry'
 
 class FoodTruckTest < Minitest::Test
   def test_it_exists
@@ -22,11 +23,16 @@ class FoodTruckTest < Minitest::Test
     assert_equal ({}), food_truck.inventory
   end
 
-  def test_stock_starts_at_zero
+  def test_it_can_check_stock
     food_truck = FoodTruck.new("Rocky Mountain Pies")
     item1 = Item.new({name: 'Peach Pie (Slice)', price: "$3.75"})
 
+
     assert_equal 0, food_truck.check_stock(item1)
+    food_truck.stock(item1, 30)
+    assert_equal 30, food_truck.check_stock(item1)
+    food_truck.stock(item1, 25)
+    assert_equal 55, food_truck.check_stock(item1)
   end
 
   def test_it_can_stock
@@ -35,5 +41,9 @@ class FoodTruckTest < Minitest::Test
     food_truck.stock(item1, 30)
 
     assert_equal ({item1 => 30}), food_truck.inventory
+    food_truck.stock(item1, 25)
+    item2 = Item.new({name: 'Apple Pie (Slice)', price: '$2.50'})
+    food_truck.stock(item2, 12)
+    assert_equal ({item1 => 55, item2 => 12}), food_truck.inventory
   end
 end
